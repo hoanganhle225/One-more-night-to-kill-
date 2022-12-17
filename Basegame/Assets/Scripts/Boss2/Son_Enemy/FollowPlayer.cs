@@ -43,6 +43,10 @@ public class FollowPlayer : MonoBehaviour
         {
 			anim.SetBool("isRun", false);
         }
+		if (maxhealth==0)
+		{
+			anim.SetBool("isRun", false);
+		}
 		return false;
 	}
 	public void LookAtPlayer()

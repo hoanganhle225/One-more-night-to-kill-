@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
         }
         if(controller.currentHealth <= 0){
             LoseScene.SetActive(true);
-            // menu.Pause();
+            
         }
         
         if (Input.GetKeyDown(KeyCode.Escape))
