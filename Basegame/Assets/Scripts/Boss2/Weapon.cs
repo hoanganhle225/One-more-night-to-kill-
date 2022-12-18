@@ -6,7 +6,8 @@ public class Weapon : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject BulletPrefab;
-    
+    public Animator anim;
+
     public float fireRate;
     private float timeRate;
     // Update is called once per frame

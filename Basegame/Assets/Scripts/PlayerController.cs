@@ -19,12 +19,15 @@ public class PlayerController : MonoBehaviour
     private bool isJumping;
     private float jumpTimeCounter;
     public float jumpTime;
-
+    private bool IsAttacking;
+    private bool JumpAttack;
     private bool isDashing = true;
     public float dashSpeed;
     private float dashTime;
     public float startDashTime;
     private float direction;
+    public float fireRate;
+    private float timeRate;
 
 
     // Start is called before the first frame update
@@ -39,7 +42,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.J) && Time.time > timeRate)
+        {
+            timeRate = Time.time + fireRate;
+            anim.SetBool("IsAttacking", true);;
+        }
+        if (Input.GetKeyUp(KeyCode.J))
+        {
+            anim.SetBool("IsAttacking", false);
+        }
         if(moveInput > 0){
             transform.eulerAngles = new Vector3(0, 0, 0);
         } else if(moveInput < 0){
@@ -50,12 +61,14 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
             isJumping = true;
             anim.SetBool("IsJumping", true);
+            anim.SetBool("JumpAttack", false);
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpForce;
         }
 
         if(Input.GetKey(KeyCode.Space) && isJumping == true){
             anim.SetBool("IsJumping", true);
+            
             if(jumpTimeCounter > 0){
                 rb.velocity = Vector2.up * jumpForce;
                 jumpTimeCounter -= Time.deltaTime;
@@ -64,10 +77,20 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("IsJumping", false);
             }
         }
+        if (Input.GetKeyDown(KeyCode.J) && isGrounded == false)
+        {
+            timeRate = Time.time + fireRate;
+            anim.SetBool("JumpAttack", true);    
+        }
+        if (Input.GetKeyUp(KeyCode.J))
+        {
+            anim.SetBool("JumpAttack", false);
+        }
 
         if(Input.GetKeyUp(KeyCode.Space)){
             anim.SetBool("IsJumping", false);
             isJumping = false;
+            
         }
 
         if(transform.rotation.y != 0){
